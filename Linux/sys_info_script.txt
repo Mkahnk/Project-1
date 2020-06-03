@@ -1,0 +1,97 @@
+#!/bin/bash
+
+#mkdir ~/sysdata 2>/dev/null
+if [ -d /$HOME/sysdata ]
+then
+  echo "Sysdata Folder Exists"
+else
+  mkdir $HOME/sysdata
+fi
+
+output=$HOME/sysdata/sys_info.txt
+if [-f $output]
+then
+  rm $output
+fi
+
+echo '==========================================' > $output
+echo -e '       A Quick System Audit' >> $output
+echo '==========================================' >> $output
+echo '------------------------------------------' >> $output
+echo '          Date and Time' >> $output
+echo '------------------------------------------' >> $output
+date >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo '         Machine Type Info: ' >> $output
+echo '------------------------------------------' >> $output
+echo $MACHTYPE >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo -e '           Uname info: ' >> $output
+echo '------------------------------------------' >> $output
+echo $(uname -a) >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo -e '            IP info: ' >> $output
+echo '------------------------------------------' >> $output
+echo $(ip addr | head -9 | tail -1) >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo -e '            Hostname:  ' >> $output
+echo '------------------------------------------' >> $output
+echo $(hostname -s) >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo -e '          DNS Servers: ' >> $output
+echo '------------------------------------------' >> $output
+cat /etc/resolv.conf >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo -e '          Memory info: ' >> $output
+echo '------------------------------------------' >> $output
+free >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo -e '            CPU info: ' >> $output
+echo '------------------------------------------' >> $output
+lscpu | grep CPU >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo -e '           Disk Usage: ' >> $output
+echo '------------------------------------------' >> $output
+df -H | head -2 >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >>$output
+echo -e '        Who is logged in: ' >> $output
+echo '------------------------------------------' >> $output
+echo $(who -a) >> $output
+ip=$(ip addr | grep inet | tail -3 | head -1)
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo -e "          IP Info: " >> $output
+echo '------------------------------------------' >> $output
+echo -e "\n" >> $output
+echo $ip >> $output
+echo -e "\n" >> $output
+suids=$(find / -type f -perm /4000)
+echo '------------------------------------------' >> $output
+echo -e "           SUID Files: " >> $output
+echo '------------------------------------------' >> $output
+echo $suids >> $output
+echo -e '\n' >> $output
+echo '------------------------------------------' >> $output
+echo              'File Permissions' >> $output
+echo '------------------------------------------' >> $output
+echo -e '\n' >> $output
+files=(
+	'/etc/passwd'
+	'/etc/shadow'
+	'/etc/hosts'
+)
+for file in ${files[@]};
+do
+	ls -l $file >> $output
+done
+echo -e '\n' >> $output
+echo '==========================================' >> $output

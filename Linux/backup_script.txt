@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#create help dir if not there
+mkdir -p /var/backup
+
+#get dir stats before
+ls -lh /var/backups > /var/backups/file_report_b4.txt
+free -h > /var/backups/disk_report_b4.txt
+
+#rename old backup if there
+mv /var/backups/home.tar.gz /var/backups/home.last.tar.gz
+
+#create compressed backup
+tar cvvzf /var/backups/home.tar.gz /home
+
+#get dir stats after
+ls -lh /var/backups > /var/backups/file_report.txt
+free -h > /var/backups/disk_report.txt

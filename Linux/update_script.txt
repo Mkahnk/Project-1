@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#ensure apt has all updates
+apt update -y
+
+#Upgrade all installed packages
+apt upgrade -y
+
+#ensure the dist. is upgraded by installing new released version
+apt full-upgrade -y
+
+#remove unused packages
+apt -autoremove --purge -y

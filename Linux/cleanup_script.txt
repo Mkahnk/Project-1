@@ -1,0 +1,11 @@
+﻿#!/bin/bash
+
+#clean up temp directories, us -rf to force cleanup
+rm -rf /tmp/*
+rm -rf /var/tmp/*
+
+#clean thumbnail chache for all users
+rm -rf /home/sysadmin/.cache/thumbnails
+rm -rf /home/student/.cache/thumbnails
+rm -rf /home/instructor/.cache/thumbnails
+rm -rf /home/root/.cache/thumbnails
